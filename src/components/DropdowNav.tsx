@@ -7,13 +7,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { IoMenuSharp } from "react-icons/io5";
 
-import { PersonIcon } from "@radix-ui/react-icons";
-import { MdOutlineExplore } from "react-icons/md";
-import { MessageCircle } from "lucide-react";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { RiUserFollowLine } from "react-icons/ri";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 export default function DropdownNav() {
   return (
     <DropdownMenu>

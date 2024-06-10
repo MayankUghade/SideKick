@@ -23,7 +23,7 @@ export async function Navbar() {
   const user = await getUser();
 
   return (
-    <div className="p-3 mt-2 mb-2 flex items-center justify-between xl:container border-b">
+    <div className="p-3 mt-4 mb-4 flex items-center justify-between xl:container border-b">
       <div className="flex items-center gap-3">
         <Image
           className="w-9 h-9"
@@ -48,7 +48,7 @@ export async function Navbar() {
           <div className="flex items-center">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="link" className="py-7">
+                <Button variant="link">
                   <Avatar>
                     <AvatarImage
                       src={
