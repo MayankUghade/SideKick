@@ -4,8 +4,6 @@ import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -17,26 +15,37 @@ import {
   RegisterLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import NavRoutes from "./Navroutes";
+import DropdownNav from "./DropdowNav";
 
 export async function Navbar() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
   return (
-    <div className="mt-5 p-3 flex items-center justify-between xl:container">
+    <div className="p-3 mt-2 mb-2 flex items-center justify-between xl:container border-b">
       <div className="flex items-center gap-3">
         <Image
-          className="sm:flex hidden"
+          className="w-9 h-9"
           src="/superhero.png"
           alt="logo"
           width={40}
           height={40}
         />
-        <h1 className="font-bold text-2xl md:text-3xl">SideKick</h1>
+        <h1 className="font-bold text-xl md:text-2xl">SideKick</h1>
       </div>
+
+      {user ? (
+        <div className="hidden md:flex">
+          <NavRoutes />
+        </div>
+      ) : (
+        <></>
+      )}
+
       <div className="flex items-center gap-2">
         {user ? (
-          <div className="flex gap-3 items-center">
+          <div className="flex items-center">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="link" className="py-7">
@@ -67,6 +76,9 @@ export async function Navbar() {
                 </Button>
               </DropdownMenuContent>
             </DropdownMenu>
+            <div className="flex md:hidden">
+              <DropdownNav />
+            </div>
           </div>
         ) : (
           <>
