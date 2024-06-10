@@ -29,7 +29,7 @@ export function LandingPage() {
         />
         <AnimatedListDemo />
       </div>
-      <Button className="mt-10 text-xl py-5 bg-blue-400">
+      <Button className="mt-10 text-xl py-5 bg-blue-600 text-white">
         Lets Get started !
       </Button>
 
