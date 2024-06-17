@@ -27,5 +27,11 @@ export async function GET() {
     });
   }
 
-  return NextResponse.redirect("http://localhost:3000/create-profile");
+  const profileComplete = dbUser.proflieComplete;
+
+  if (profileComplete) {
+    return NextResponse.redirect("http://localhost:3000");
+  } else {
+    return NextResponse.redirect("http://localhost:3000/create-profile");
+  }
 }

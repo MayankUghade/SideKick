@@ -18,40 +18,48 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { UploadDropzone } from "@/utils/uploadthing";
 import { useState } from "react";
+import { createPost } from "./actions";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
-  Title: z.string().min(2, {
+  projectTitle: z.string().min(2, {
     message: "Title must be at least 2 characters.",
   }),
-  Description: z.string().min(10, {
+  description: z.string().min(10, {
     message: "Description must be at least 10 characters.",
   }),
   tags: z.string().min(1, {
     message: "There should be atleast one tag.",
   }),
-  github: z.string().url({
+  githubUrl: z.string().url({
     message: "Add a valid GitHub link to your project",
   }),
-  images: z.array(z.string()).nonempty({
+  projectImages: z.array(z.string()).nonempty({
     message: "At least one image is required.",
   }),
 });
 
 export function ProfileForm() {
-  const [images, setImages] = useState(null);
+  const router = useRouter();
+  const [projectImages, setprojectImages] = useState(null);
+  const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      Title: "",
-      Description: "",
+      projectTitle: "",
+      description: "",
       tags: "",
-      github: "",
-      images: [],
+      githubUrl: "",
+      projectImages: [],
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
+    await createPost({ ...values, projectImages });
+    router.push("/");
+    setLoading(false);
   }
   return (
     <Form {...form}>
@@ -62,7 +70,7 @@ export function ProfileForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="Title"
+          name="projectTitle"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Project Title</FormLabel>
@@ -77,7 +85,7 @@ export function ProfileForm() {
 
         <FormField
           control={form.control}
-          name="Description"
+          name="description"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Project Description</FormLabel>
@@ -114,7 +122,7 @@ export function ProfileForm() {
 
         <FormField
           control={form.control}
-          name="github"
+          name="githubUrl"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Github Url</FormLabel>
@@ -132,7 +140,7 @@ export function ProfileForm() {
 
         <FormField
           control={form.control}
-          name="images"
+          name="projectImages"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Project Images</FormLabel>
@@ -142,7 +150,7 @@ export function ProfileForm() {
                     endpoint="imageUploader"
                     onClientUploadComplete={(res: any) => {
                       const urls = res.map((item: any) => item.url);
-                      setImages(urls);
+                      setprojectImages(urls);
                       field.onChange(urls);
                     }}
                     onUploadError={(error) => {
@@ -157,7 +165,16 @@ export function ProfileForm() {
           )}
         />
 
-        <Button type="submit">Submit</Button>
+        {loading ? (
+          <Button disabled className="w-full">
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Please wait
+          </Button>
+        ) : (
+          <Button type="submit" className="w-full">
+            Submit
+          </Button>
+        )}
       </form>
     </Form>
   );

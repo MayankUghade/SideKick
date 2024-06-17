@@ -30,6 +30,19 @@ model Profile {
   twitterProfile   String
   linkedinProfile  String
   instagramProfile String
+  posts            Post[]
 
   user User @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+}
+
+model Post {
+  id            String   @id @default(cuid())
+  email         String
+  projectTitle  String
+  description   String
+  tags          String
+  githubUrl     String
+  projectImages String[]
+
+  profile Profile @relation(fields: [email], references: [userEmail], onDelete: Cascade) // Relation to Profile model
 }
