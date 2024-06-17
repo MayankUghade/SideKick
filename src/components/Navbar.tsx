@@ -17,14 +17,15 @@ import {
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import NavRoutes from "./Navroutes";
 import DropdownNav from "./DropdowNav";
+import Link from "next/link";
 
 export async function Navbar() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
   return (
-    <div className="p-3 mt-4 mb-4 flex items-center justify-between xl:container border-b">
-      <div className="flex items-center gap-3">
+    <div className="p-3 mt-2 mb-4 flex items-center justify-between xl:container border-b">
+      <Link href="/" className="flex items-center gap-3 cursor-pointer">
         <Image
           className="w-9 h-9"
           src="/superhero.png"
@@ -33,7 +34,7 @@ export async function Navbar() {
           height={40}
         />
         <h1 className="font-bold text-xl md:text-2xl">SideKick</h1>
-      </div>
+      </Link>
 
       {user ? (
         <div className="hidden md:flex">

@@ -9,10 +9,27 @@ datasource db {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  kindeId   String @unique
-  email     String @unique
-  firstName String
-  lastName  String
-  userImage String
+  id              Int      @id @default(autoincrement())
+  kindeId         String   @unique
+  email           String   @unique
+  firstName       String
+  lastName        String
+  userImage       String
+  proflieComplete Boolean  @default(false)
+  profile         Profile?
+}
+
+model Profile {
+  id               String @id @default(cuid())
+  userEmail        String @unique
+  profileImage     String
+  userName         String
+  description      String
+  role             String
+  githubProfile    String
+  twitterProfile   String
+  linkedinProfile  String
+  instagramProfile String
+
+  user User @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 }

@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 const svgToDataUri = require("mini-svg-data-uri");
+import { withUt } from "uploadthing/tw";
 
 const colors = require("tailwindcss/colors");
 const {
@@ -118,4 +119,4 @@ function addVariablesForColors({ addBase, theme }: any) {
   });
 }
 
-export default config;
+export default withUt(config);
