@@ -145,8 +145,9 @@ export function ProfileForm() {
             <FormItem>
               <FormLabel>Project Images</FormLabel>
               <FormControl>
-                <div className="border rounded-lg">
+                <div>
                   <UploadDropzone
+                    className="p-5 mt-5 mb-5"
                     endpoint="imageUploader"
                     onClientUploadComplete={(res: any) => {
                       const urls = res.map((item: any) => item.url);
@@ -166,12 +167,12 @@ export function ProfileForm() {
         />
 
         {loading ? (
-          <Button disabled className="w-full">
+          <Button disabled className="w-fit">
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             Please wait
           </Button>
         ) : (
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-fit">
             Submit
           </Button>
         )}

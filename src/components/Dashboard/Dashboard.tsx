@@ -3,8 +3,10 @@ import { Button } from "../ui/button";
 import { PlusIcon, Search } from "lucide-react";
 import PostCard from "./Postcard";
 import Link from "next/link";
+import { fetchPosts } from "@/app/actions/fetchpost";
 
-export default function Dashboard() {
+export default async function Dashboard() {
+  const postData = await fetchPosts();
   return (
     <div className="p-3 flex flex-col gap-5">
       <div className="lg:container flex gap-2 items-center justify-between">
@@ -30,8 +32,19 @@ export default function Dashboard() {
       <h1 className="mt-5 font-bold text-3xl text-center">Your Feed</h1>
 
       <div className="flex items-center justify-center flex-wrap gap-5">
-        <PostCard />
-        <PostCard />
+        {postData.map((post) => (
+          <PostCard
+            key={post.id}
+            projectTitle={post.projectTitle}
+            githubLink={post.githubUrl}
+            description={post.description}
+            name={post.profile.userName}
+            role={post.profile.role}
+            userImage={post.profile.profileImage}
+            projectImages={post.projectImages}
+            tags={post.tags}
+          />
+        ))}
       </div>
     </div>
   );
