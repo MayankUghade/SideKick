@@ -10,9 +10,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
+  RegisterLink,
   LoginLink,
   LogoutLink,
-  RegisterLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import NavRoutes from "./Navroutes";

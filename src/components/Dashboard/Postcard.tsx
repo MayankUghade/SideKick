@@ -44,8 +44,16 @@ export default function PostCard({
 }: PostCardProps) {
   const tagList = tags.split(",").map((tag) => tag.trim());
 
+  const truncateDescription = (desc: string, wordLimit: number) => {
+    const words = desc.split(" ");
+    if (words.length > wordLimit) {
+      return words.slice(0, wordLimit).join(" ") + " ........";
+    }
+    return desc;
+  };
+
   return (
-    <Card className="w-full xl:max-w-2xl max-w-md rounded-2xl overflow-hidden shadow-lg h-[660px]">
+    <Card className="w-full max-w-lg rounded-2xl overflow-hidden shadow-lg md:h-[600px]">
       <div className="relative mb-4">
         <Carousel className="rounded-lg">
           <CarouselContent>
@@ -80,7 +88,7 @@ export default function PostCard({
               <p className="text-xs text-gray-500 dark:text-gray-400">{role}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center">
             <Button variant="ghost" size="icon">
               <ShareIcon className="w-5 h-5" />
               <span className="sr-only">Share</span>
@@ -108,7 +116,7 @@ export default function PostCard({
         </Link>
 
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          {description}
+          {truncateDescription(description, 15)}
         </p>
         <div className="py-2 flex gap-2 flex-wrap mt-4">
           {tagList.map((tag, index) => (
