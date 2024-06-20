@@ -2,6 +2,7 @@
 
 import prisma from "@/utils/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { revalidatePath } from "next/cache";
 
 export async function fetchUserProfile() {
   const { getUser } = getKindeServerSession();
@@ -20,6 +21,7 @@ export async function fetchUserPosts() {
   const user = await getUser();
 
   const userEmail = user?.email;
+  revalidatePath("/profile");
   return await prisma.post.findMany({
     where: {
       email: userEmail as string,

@@ -53,7 +53,7 @@ export default function PostCard({
   };
 
   return (
-    <Card className="w-full max-w-lg rounded-2xl overflow-hidden shadow-lg md:h-[600px]">
+    <Card className="w-full max-w-lg rounded-2xl overflow-hidden shadow-lg md:h-[560px]">
       <div className="relative mb-4">
         <Carousel className="rounded-lg">
           <CarouselContent>
@@ -105,18 +105,8 @@ export default function PostCard({
         </div>
         <Separator className="my-4" />
         <h1 className="font-bold mb-2">{projectTitle}</h1>
-        <Link
-          href={githubLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center cursor-pointer gap-2 mb-2"
-        >
-          <GitHubLogoIcon className="w-5 h-5" />
-          <h1>Project Link</h1>
-        </Link>
-
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          {truncateDescription(description, 15)}
+          {truncateDescription(description, 25)}
         </p>
         <div className="py-2 flex gap-2 flex-wrap mt-4">
           {tagList.map((tag, index) => (

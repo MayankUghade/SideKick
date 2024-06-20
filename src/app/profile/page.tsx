@@ -10,6 +10,7 @@ import { fetchUserProfile } from "./actions";
 import { fetchUserPosts } from "./actions";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import PostCard from "@/components/Dashboard/Postcard";
+import Image from "next/image";
 
 export default async function Component() {
   const userProfile = await fetchUserProfile();
@@ -82,19 +83,33 @@ export default async function Component() {
           </div>
           <h3 className="text-xl font-bold">Posts</h3>
           <div className="flex items-center justify-center flex-wrap gap-5">
-            {userPosts.map((post) => (
-              <PostCard
-                key={post.id}
-                projectTitle={post.projectTitle}
-                githubLink={post.githubUrl}
-                description={post.description}
-                name={post.profile.userName}
-                role={post.profile.role}
-                userImage={post.profile.profileImage}
-                projectImages={post.projectImages}
-                tags={post.tags}
-              />
-            ))}
+            {userPosts.length > 0 ? (
+              userPosts.map((post) => (
+                <PostCard
+                  key={post.id}
+                  projectTitle={post.projectTitle}
+                  githubLink={post.githubUrl}
+                  description={post.description}
+                  name={post.profile.userName}
+                  role={post.profile.role}
+                  userImage={post.profile.profileImage}
+                  projectImages={post.projectImages}
+                  tags={post.tags}
+                />
+              ))
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-3 mt-5">
+                <h2 className="text-xl font-semibold text-gray-500">
+                  No posts created yet
+                </h2>
+                <Image
+                  src="no_data.svg"
+                  alt="no data"
+                  width={300}
+                  height={300}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>

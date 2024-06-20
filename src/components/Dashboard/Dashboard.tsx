@@ -4,6 +4,7 @@ import { PlusIcon, Search } from "lucide-react";
 import PostCard from "./Postcard";
 import Link from "next/link";
 import { fetchPosts } from "@/app/actions/fetchpost";
+import Image from "next/image";
 
 export default async function Dashboard() {
   const postData = await fetchPosts();
@@ -32,19 +33,33 @@ export default async function Dashboard() {
       <h1 className="mt-5 font-bold text-3xl text-center">Your Feed</h1>
 
       <div className="flex items-center justify-center flex-wrap gap-5">
-        {postData.map((post) => (
-          <PostCard
-            key={post.id}
-            projectTitle={post.projectTitle}
-            githubLink={post.githubUrl}
-            description={post.description}
-            name={post.profile.userName}
-            role={post.profile.role}
-            userImage={post.profile.profileImage}
-            projectImages={post.projectImages}
-            tags={post.tags}
-          />
-        ))}
+        {postData.length > 0 ? (
+          postData.map((post) => (
+            <Link
+              href={`/post/${post.id}`}
+              key={post.id}
+              className="cursor-pointer"
+            >
+              <PostCard
+                projectTitle={post.projectTitle}
+                githubLink={post.githubUrl}
+                description={post.description}
+                name={post.profile.userName}
+                role={post.profile.role}
+                userImage={post.profile.profileImage}
+                projectImages={post.projectImages}
+                tags={post.tags}
+              />
+            </Link>
+          ))
+        ) : (
+          <div className="flex flex-col items-center justify-center gap-3 mt-5">
+            <h2 className="text-xl font-semibold text-gray-500">
+              No posts yet
+            </h2>
+            <Image src="no_data.svg" alt="no data" width={300} height={300} />
+          </div>
+        )}
       </div>
     </div>
   );
