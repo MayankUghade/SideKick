@@ -31,3 +31,13 @@ export async function fetchUserPosts() {
     },
   });
 }
+
+export async function deletePost(postId: string) {
+  revalidatePath("/");
+  revalidatePath("/profile");
+  await prisma.post.delete({
+    where: {
+      id: postId as string,
+    },
+  });
+}

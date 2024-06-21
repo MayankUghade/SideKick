@@ -11,6 +11,7 @@ import { fetchUserPosts } from "./actions";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import PostCard from "@/components/Dashboard/Postcard";
 import Image from "next/image";
+import ProfilePost from "./profilePost";
 
 export default async function Component() {
   const userProfile = await fetchUserProfile();
@@ -85,7 +86,7 @@ export default async function Component() {
           <div className="flex items-center justify-center flex-wrap gap-5">
             {userPosts.length > 0 ? (
               userPosts.map((post) => (
-                <PostCard
+                <ProfilePost
                   id={post.id}
                   key={post.id}
                   projectTitle={post.projectTitle}
