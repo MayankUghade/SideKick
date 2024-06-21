@@ -35,22 +35,18 @@ export default async function Dashboard() {
       <div className="flex items-center justify-center flex-wrap gap-5">
         {postData.length > 0 ? (
           postData.map((post) => (
-            <Link
-              href={`/post/${post.id}`}
+            <PostCard
               key={post.id}
-              className="cursor-pointer"
-            >
-              <PostCard
-                projectTitle={post.projectTitle}
-                githubLink={post.githubUrl}
-                description={post.description}
-                name={post.profile.userName}
-                role={post.profile.role}
-                userImage={post.profile.profileImage}
-                projectImages={post.projectImages}
-                tags={post.tags}
-              />
-            </Link>
+              id={post.id}
+              projectTitle={post.projectTitle}
+              githubLink={post.githubUrl}
+              description={post.description}
+              name={post.profile.userName}
+              role={post.profile.role}
+              userImage={post.profile.profileImage}
+              projectImages={post.projectImages}
+              tags={post.tags}
+            />
           ))
         ) : (
           <div className="flex flex-col items-center justify-center gap-3 mt-5">

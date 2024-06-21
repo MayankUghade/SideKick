@@ -1,4 +1,5 @@
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import Link from "next/link";
 
 export default function CommentCard({ comment }: any) {
   const formattedDate = new Date(comment.createdAt).toLocaleString();
@@ -13,7 +14,12 @@ export default function CommentCard({ comment }: any) {
       </Avatar>
       <div className="flex-1 grid gap-2">
         <div className="flex items-center justify-between">
-          <div className="font-medium">{comment.profile.userName}</div>
+          <Link
+            href={`/profile/${comment.profile.id}`}
+            className="font-medium cursor-pointer hover:underline"
+          >
+            {comment.profile.userName}
+          </Link>
           <time className="text-xs text-muted-foreground">{formattedDate}</time>
         </div>
         <p className="text-sm text-muted-foreground">{comment.message}</p>

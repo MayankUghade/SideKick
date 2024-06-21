@@ -21,14 +21,23 @@ export default function Rating({ userEmail, postId }: any) {
   const [rating, setRating] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setLoading(true);
-    submitRatings(userEmail, postId, rating);
-    setLoading(false);
-    toast({
-      title: "Thank you for rating 😊",
-      description: "Your rating has been updated successfully!!",
-    });
+    try {
+      await submitRatings(userEmail, postId, rating);
+      toast({
+        title: "Thank you for rating 😊",
+        description: "Your rating has been updated successfully!!",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          "There was an error submitting your rating. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <Dialog>

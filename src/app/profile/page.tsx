@@ -86,6 +86,7 @@ export default async function Component() {
             {userPosts.length > 0 ? (
               userPosts.map((post) => (
                 <PostCard
+                  id={post.id}
                   key={post.id}
                   projectTitle={post.projectTitle}
                   githubLink={post.githubUrl}

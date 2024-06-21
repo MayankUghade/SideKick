@@ -16,12 +16,14 @@ import {
   BookmarkIcon,
   ShareIcon,
 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import { FaStar } from "react-icons/fa";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { CommentForm } from "./comment";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import CommentCard from "./commentCard";
 import Rating from "./Ratings";
+import Bookmark from "@/components/Dashboard/Bookmark";
 
 interface PageProps {
   params: {
@@ -39,15 +41,22 @@ export default async function Page({ params }: PageProps) {
   const comment = await fetchComment(postId);
   const ratings = await fetchRatings(postId);
 
+  const tagList = postData?.tags.split(",").map((tag) => tag.trim());
+
   return (
     <div className="px-4 py-6 md:px-6 lg:py-12">
       <div className="mx-auto max-w-4xl">
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold">{postData?.projectTitle}</h1>
+              <h1 className="text-3xl font-bold mb-6">
+                {postData?.projectTitle}
+              </h1>
               <div className="flex items-center gap-3 mt-3">
-                <div className="flex gap-2 items-center">
+                <Link
+                  href={`/profile/${postData?.profile.id}`}
+                  className="flex gap-2 items-center cursor-pointer"
+                >
                   <Avatar className="w-12 h-12 ring-4 ring-white dark:ring-gray-950">
                     <AvatarImage
                       src={postData?.profile.profileImage}
@@ -57,7 +66,7 @@ export default async function Page({ params }: PageProps) {
                       {postData?.profile.userName.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <div>
+                  <div className="hover:underline">
                     <h3 className="text-md font-semibold">
                       {postData?.profile.userName}
                     </h3>
@@ -65,7 +74,7 @@ export default async function Page({ params }: PageProps) {
                       {postData?.profile.role}
                     </p>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -73,10 +82,7 @@ export default async function Page({ params }: PageProps) {
                 <ShareIcon className="h-5 w-5" />
                 <span className="sr-only">Share</span>
               </Button>
-              <Button variant="ghost" size="icon">
-                <BookmarkIcon className="h-5 w-5" />
-                <span className="sr-only">Bookmark</span>
-              </Button>
+              <Bookmark postId={postData?.id} userEmail={postData?.email} />
               <Button variant="ghost" size="icon" asChild>
                 <Link
                   href={postData?.githubUrl as string}
@@ -111,12 +117,19 @@ export default async function Page({ params }: PageProps) {
           <div className="space-y-4">
             <p>{postData?.description}</p>
           </div>
+          <div className="py-2 flex gap-2 flex-wrap mt-4">
+            {tagList?.map((tag, index) => (
+              <Badge key={index}>{tag}</Badge>
+            ))}
+          </div>
           <div className="flex items-center gap-4">
             {[1, 2, 3, 4, 5].map((star) => (
               <div
                 key={star}
                 className={`transition-colors ${
-                  star <= ratings ? "text-yellow-500" : "text-muted-foreground"
+                  ratings !== null && star <= ratings
+                    ? "text-yellow-500"
+                    : "text-muted-foreground"
                 }`}
               >
                 <FaStar className="h-7 w-7" />

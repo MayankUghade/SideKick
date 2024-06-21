@@ -5,7 +5,6 @@ import { Separator } from "@/components/ui/separator";
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
-  BookmarkIcon,
   MessageCircleIcon,
   ShareIcon,
 } from "lucide-react";
@@ -18,10 +17,12 @@ import {
   CarouselPrevious,
 } from "../ui/carousel";
 import { Badge } from "../ui/badge";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import Bookmark from "./Bookmark";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 interface PostCardProps {
+  id: string;
   projectTitle: string;
   githubLink: string;
   description: string;
@@ -32,7 +33,8 @@ interface PostCardProps {
   userImage: string;
 }
 
-export default function PostCard({
+export default async function PostCard({
+  id,
   projectTitle,
   githubLink,
   description,
@@ -52,8 +54,11 @@ export default function PostCard({
     return desc;
   };
 
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
   return (
-    <Card className="w-full max-w-lg rounded-2xl overflow-hidden shadow-lg md:h-[560px]">
+    <Card className="w-full max-w-lg rounded-2xl overflow-hidden shadow-lg md:h-[580px]">
       <div className="relative mb-4">
         <Carousel className="rounded-lg">
           <CarouselContent>
@@ -78,28 +83,28 @@ export default function PostCard({
 
       <CardContent className="p-3 md:p-4">
         <div className="flex sm:items-center justify-between">
-          <div className="flex gap-2 items-center">
+          <Link href={`/profile/${id}`} className="flex gap-2 items-center">
             <Avatar className="w-12 h-12 ring-4 ring-white dark:ring-gray-950">
               <img src={userImage} alt={name} />
               <AvatarFallback>{name.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
-            <div>
+            <div className="hover:underline">
               <h3 className="text-md font-semibold">{name}</h3>
               <p className="text-xs text-gray-500 dark:text-gray-400">{role}</p>
             </div>
-          </div>
+          </Link>
           <div className="flex items-center">
             <Button variant="ghost" size="icon">
               <ShareIcon className="w-5 h-5" />
               <span className="sr-only">Share</span>
             </Button>
+            <Bookmark postId={id} userEmail={user?.email} />
             <Button variant="ghost" size="icon">
-              <BookmarkIcon className="w-5 h-5" />
-              <span className="sr-only">Bookmark</span>
-            </Button>
-            <Button variant="ghost" size="icon">
-              <MessageCircleIcon className="w-5 h-5" />
-              <span className="sr-only">Comment</span>
+              <Link href={`/post/${id}`} key={id} className="cursor-pointer">
+                {" "}
+                <MessageCircleIcon className="w-5 h-5" />
+                <span className="sr-only">Comment</span>{" "}
+              </Link>
             </Button>
           </div>
         </div>
@@ -123,6 +128,11 @@ export default function PostCard({
           </div>
           <span className="text-sm text-gray-500 dark:text-gray-400">4.2</span>
         </div>
+        <Button variant="outline" className="mt-3" asChild>
+          <Link href={`/post/${id}`} key={id} className="cursor-pointer">
+            view more
+          </Link>
+        </Button>
       </CardContent>
     </Card>
   );

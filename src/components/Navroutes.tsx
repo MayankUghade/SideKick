@@ -8,7 +8,7 @@ export default function NavRoutes() {
         <Link href="/profile">Profile</Link>
       </Button>
       <Button variant="ghost" className="text-md">
-        Explore
+        <Link href="/bookmarks">Bookmarks</Link>
       </Button>
       <Button variant="ghost" className="text-md">
         Notification

@@ -20,8 +20,8 @@ model User {
 }
 
 model Profile {
-  id               String    @id @default(cuid())
-  userEmail        String    @unique
+  id               String     @id @default(cuid())
+  userEmail        String     @unique
   profileImage     String
   userName         String
   description      String
@@ -33,12 +33,13 @@ model Profile {
   posts            Post[]
   comments         Comment[]
   ratings          Rating[]
+  bookmark         Bookmark[]
 
   user User @relation(fields: [userEmail], references: [email], onDelete: Cascade)
 }
 
 model Post {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   email         String
   projectTitle  String
   description   String
@@ -47,6 +48,7 @@ model Post {
   projectImages String[]
   comments      Comment[]
   ratings       Rating[]
+  bookmark      Bookmark[]
 
   profile Profile @relation(fields: [email], references: [userEmail], onDelete: Cascade) // Relation to Profile model
 }
@@ -63,14 +65,22 @@ model Comment {
 }
 
 model Rating {
-  id        String @id @default(cuid())
+  id        String   @id @default(cuid())
   postId    String
   userEmail String
-  rating    Int    
+  rating    Int
   createdAt DateTime @default(now())
 
   post    Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
   profile Profile @relation(fields: [userEmail], references: [userEmail], onDelete: Cascade)
+}
 
-  @@unique([userEmail])
+model Bookmark {
+  id        String   @id @default(cuid())
+  postId    String
+  userEmail String
+  createdAt DateTime @default(now())
+
+  post    Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  profile Profile @relation(fields: [userEmail], references: [userEmail], onDelete: Cascade)
 }

@@ -45,13 +45,32 @@ export async function submitRatings(
   postId: string,
   rating: number
 ) {
-  await prisma.rating.create({
-    data: {
+  const existingRating = await prisma.rating.findFirst({
+    where: {
       userEmail,
       postId,
-      rating,
     },
   });
+
+  if (existingRating) {
+    await prisma.rating.update({
+      where: {
+        id: existingRating.id,
+      },
+      data: {
+        rating,
+      },
+    });
+  } else {
+    await prisma.rating.create({
+      data: {
+        userEmail,
+        postId,
+        rating,
+      },
+    });
+  }
+
   revalidatePath(`/post/${postId}`, "page");
 }
 
