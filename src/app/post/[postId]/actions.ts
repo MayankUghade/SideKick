@@ -86,3 +86,28 @@ export async function fetchRatings(postId: string) {
 
   return avgRating._avg.rating;
 }
+
+export async function deleteComment(commentId: string) {
+  revalidatePath(`/post`, "page");
+  await prisma.comment.delete({
+    where: {
+      id: commentId as string,
+    },
+  });
+}
+
+export async function updateComment(
+  commentId: string,
+  commentData: string,
+  postId: string
+) {
+  revalidatePath(`/post/${postId}`, "page");
+  await prisma.comment.update({
+    where: {
+      id: commentId as string,
+    },
+    data: {
+      message: commentData,
+    },
+  });
+}

@@ -38,7 +38,6 @@ export function CommentForm({ postId, userEmail }: any) {
     createComment(postId, userEmail, message);
     form.reset();
     setLoading(false);
-    console.log(values);
   }
 
   return (
